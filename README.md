@@ -1,7 +1,7 @@
 # Smart India Hackathon Workshop
 # Date:
-## Register Number:
-## Name:
+## Register Number:212225240166
+## Name: Tawqir Ahamed Sayeed L
 ## Problem Title
 SIH 1710: Enhancing Navigation for Railway Station Facilities and Locations
 ## Problem Description
@@ -12,15 +12,73 @@ Ministry of Railway
 
 ## Idea
 
+RailNav AI is an intelligent indoor navigation platform for railway stations. Unlike existing solutions that rely on fixed beacon hardware, RailNav uses Visual Positioning System (VPS) — the phone camera identifies the passenger's location by matching live frames against a pre-indexed station image database. This requires zero infrastructure changes to existing stations.
+
+Passengers enter their PNR at entry and the system proactively routes them: "Your train leaves in 22 min from Platform 7. Coach S4 is at position 3 from the front." The engine routes around live crowd density estimated via lightweight pose detection on CCTV feeds, and works fully offline — critical in stations with poor connectivity.
 
 ## Proposed Solution / Architecture Diagram
+Passenger Mobile App
+Flutter app with 3D station maps, step-by-step navigation, voice guidance, AR overlay, and offline routing. PNR input auto-triggers proactive guidance.
 
+Visual Positioning Engine
+Phone camera matches frames against a pre-indexed station image DB. No beacons or NFC tags required. Falls back to QR scan at entry for cold start.
+
+Route Engine
+Graph-based pathfinding (A*) on the station floor graph. Weighted by real-time crowd density from CCTV pose estimation. Accessibility-aware (lifts, ramps).
+
+Digital Kiosks
+Touch-screen kiosks at entrances and concourses running the same route engine. QR code printed for the route to continue on mobile
+
+Crowd Intelligence
+YOLOv8-nano or MediaPipe on CCTV frames estimates zone-wise crowd density. Feeds live into the routing weights — dense zones get higher path cost.
+
+Emergency Mode
+On fire/security alert, system overrides all routes with evacuation paths to the nearest safe exit. Pushed as high-priority notification to all active sessions.
+
+<img width="1081" height="641" alt="railnav-architecture" src="https://github.com/user-attachments/assets/f36ec3e9-ca02-479a-9296-612be2165941" />
 
 ## Use Cases
+<img width="1125" height="768" alt="usecase" src="https://github.com/user-attachments/assets/2a96ad3c-23fd-4fc4-b090-0aea158e7819" />
+
 
 
 ## Technology Stack
+Kiosk / Web:
+React.js
+Next.js
+Three.js
+Mapbox GL
 
+Backend:
+Node.js + Express
+Socket.io (realtime)
+PostgreSQL
+Redis (cache)
+
+AI / ML:
+YOLOv8-nano (crowd)
+MediaPipe (pose)
+VPS image indexing
+Google STT / TTS
+NLLB (translation)
+
+Navigation Engine:
+A* pathfinding
+Dijkstra (fallback)
+Graph DB (Neo4j)
+NTES API (trains)
+
+Mobile App:
+Flutter
+Three.js (3D maps)
+Mapbox GL
+flutter_tts
+speech_to_text
 
 ## Dependencies
 
+Mapping service- 30 days
+
+Data collection- 50 days
+
+budget- rs.1,50,000
